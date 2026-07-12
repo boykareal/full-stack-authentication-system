@@ -2,19 +2,28 @@
 
 import axios from "axios";
 import React , { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import {useRouter} from "next/navigation";
 export default function ResetPassword() {
     const [Password, setPassword] = React.useState("");
     const [message, setMessage] = useState("");
     const [isError, setIsError] = useState(false);
+    const router = useRouter();
+     const searchParams = useSearchParams();
 
     const handleclick = async () => {
       try {
-        const res = await axios.post("/api/users/ResetPassword", {Password});
+        const token = searchParams.get("token")
+        const res = await axios.post("/api/users/ResetPassword", {Password , token});
         console.log(res.data);
-        setIsError(false);
-        setMessage("password set succesfully");
-      } catch (error) {
+        if(res.status === 200){
+          setIsError(false);
+          setMessage("password set succesfully");
+          router.push("/login")
+        }
+      } catch (error:any) {
         setIsError(true);
+        setMessage(error.message)
         console.error(error);
       }
     };
@@ -22,14 +31,14 @@ export default function ResetPassword() {
     return (
       <div>
         <div className="flex flex-col min-h-screen justify-center items-center">
-          <label htmlFor="email">NewPassword</label>
+          <label htmlFor="password">NewPassword</label>
           <input
             className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
-            id="email"
+            id="password"
             type="text"
             value={Password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="email"
+            placeholder="Enter new password"
           />
           <button
             className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
