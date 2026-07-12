@@ -6,7 +6,7 @@ export async function POST(req: NextRequest){
     try {
         await connect();
         const {email} = await req.json();
-        forgotPassword(email)
+        await forgotPassword(email)
         return NextResponse.json({
            message: "reset password message send succesfully",
            success: true,
