@@ -8,7 +8,8 @@ export function proxy(request:NextRequest){
       path === "/login" ||
       path === "/signup" ||
       path === "/verifyemail" ||
-      path === `/forgotpassword`;
+      path === `/forgotpassword` ||
+      path === "/ResetPassword";
 
     const token = request.cookies.get('token')?.value || ''
 
