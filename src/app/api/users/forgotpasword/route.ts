@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { forgotPassword } from "@/helpers/forgotpassword";
 import {connect} from '@/dbconfig/dbconfig'
 
-export async function POST(req: NextRequest, res: NextResponse){
+export async function POST(req: NextRequest){
     try {
         await connect();
         const {email} = await req.json();
